@@ -35,7 +35,7 @@ var Therocktrading = function(key, secret, userAgent, timeout, host) {
 }
 
 Therocktrading.prototype._request_auth = function(method, path, data, callback) {
-  //console.log("request1: method, path, data, callback", method, path, data, callback);
+  // console.log("Request path: ", path);
   var timeout = this.timeout;
   path = "/v1/" + path;
   var options = {
@@ -131,7 +131,7 @@ Therocktrading.prototype._generateNonce = function() {
 
 Therocktrading.prototype._request = function(method, path, data, callback, args) {
   //console.log("Request method: ", method);
-  console.log("Request path: ", path);
+  //console.log("Request path: ", path);
   //console.log("Request data: ", data);
   //console.log("Request callback: ", callback);
   //console.log("Request args: ", args);  
@@ -252,6 +252,10 @@ Therocktrading.prototype.balance = function(currency, callback) {
   this._request_auth('get', 'balances/' + currency, '', callback);
 }
 
+Therocktrading.prototype.balances = function(callback) {
+  this._request_auth('get', 'balances', '', callback);
+}
+
 Therocktrading.prototype.user_transactions = function(market, options, callback) {
   if(!callback) {
     callback = options;
@@ -322,8 +326,6 @@ Therocktrading.prototype.bitcoin_withdrawal = function(amount, address, instant,
   this._post(null, 'bitcoin_withdrawal', callback, {
     amount: amount,
     address: address,
-
-    // NOTE: isntant is not available as of `Tue Jan  9 13:52:32 CET 2018`
     instant: instant
   }, true);
 }
